@@ -36,7 +36,7 @@
     "ember-cli-version-checker": "^5.1.1",
     "regenerator-runtime": "^0.13.7",
     "resolve": "~1.11.0",
-    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^5.2.0"
   },
   "devDependencies": {
