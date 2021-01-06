@@ -68,7 +68,8 @@ module.exports = {
     let writeFile = require('broccoli-file-creator');
     let TransformAmd = require('./lib/transform-amd');
 
-    let additionalEvergreenPolyfills = this._options.additionalEvergreenPolyfills;
+    let additionalEvergreenPolyfills = this._options
+      .additionalEvergreenPolyfills;
     let additionalLegacyPolyfills = this._options.additionalLegacyPolyfills;
     let legacyTargets = this._options.legacyTargets || this.project.targets;
     let evergreenTargets = this._options.evergreenTargets;
@@ -80,11 +81,19 @@ module.exports = {
     let entries = new MergeTrees([
       writeFile(
         'legacy.js',
-        this._getEntryForTargets(legacyTargets, corejsVersion, additionalLegacyPolyfills)
+        this._getEntryForTargets(
+          legacyTargets,
+          corejsVersion,
+          additionalLegacyPolyfills
+        )
       ),
       writeFile(
         'evergreen.js',
-        this._getEntryForTargets(evergreenTargets, corejsVersion, additionalEvergreenPolyfills)
+        this._getEntryForTargets(
+          evergreenTargets,
+          corejsVersion,
+          additionalEvergreenPolyfills
+        )
       ),
     ]);
 
@@ -125,28 +134,25 @@ module.exports = {
     let presetEnvPath = require.resolve('@babel/preset-env');
 
     let imports = [
-        'core-js/stable',
-        'regenerator-runtime/runtime',
-        ...additionalPolyfills,
-      ]
-      .map(path => `import "${path}"`)
+      'core-js/stable',
+      'regenerator-runtime/runtime',
+      ...additionalPolyfills,
+    ]
+      .map((path) => `import "${path}"`)
       .join(';');
 
-    return babel.transform(
-      imports,
-      {
-        presets: [
-          [
-            presetEnvPath,
-            {
-              targets,
-              useBuiltIns: 'entry',
-              corejs,
-            },
-          ],
+    return babel.transform(imports, {
+      presets: [
+        [
+          presetEnvPath,
+          {
+            targets,
+            useBuiltIns: 'entry',
+            corejs,
+          },
         ],
-      }
-    ).code;
+      ],
+    }).code;
   },
 
   contentFor(type, { rootURL }) {
