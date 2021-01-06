@@ -8,6 +8,7 @@ const fs = require('fs');
 const DEFAULT_OPTIONS = {
   additionalEvergreenPolyfills: [],
   additionalLegacyPolyfills: [],
+  additionalRollupPlugins: [],
   includeScriptTags: true,
   legacyTargets: null,
   evergreenTargets: [
@@ -71,6 +72,7 @@ module.exports = {
     let additionalEvergreenPolyfills = this._options
       .additionalEvergreenPolyfills;
     let additionalLegacyPolyfills = this._options.additionalLegacyPolyfills;
+    let additionalRollupPlugins = this._options.additionalRollupPlugins;
     let legacyTargets = this._options.legacyTargets || this.project.targets;
     let evergreenTargets = this._options.evergreenTargets;
 
@@ -112,6 +114,7 @@ module.exports = {
             },
           }),
           commonjs(),
+          ...additionalRollupPlugins,
         ],
       },
     });
