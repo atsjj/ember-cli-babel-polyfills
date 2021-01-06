@@ -27,6 +27,15 @@ These polyfills are built dynamically using Babel's presetEnv, so they'll stay
 up to date even as the browsers themselves are changing. Best of all, you only
 ship the things you care about to modern browsers!
 
+
+Compatibility
+------------------------------------------------------------------------------
+
+* Ember.js v3.16 or above
+* Ember CLI v2.13 or above
+* Node.js v10 or above
+
+
 Installation
 ------------------------------------------------------------------------------
 
@@ -122,6 +131,12 @@ let app = new EmberApp(defaults, {
   },
 });
 ```
+
+Contributing
+------------------------------------------------------------------------------
+
+See the [Contributing](CONTRIBUTING.md) guide for details.
+
 
 License
 ------------------------------------------------------------------------------
