@@ -6,6 +6,8 @@ const Funnel = require('broccoli-funnel');
 const fs = require('fs');
 
 const DEFAULT_OPTIONS = {
+  additionalEvergreenPolyfills: [],
+  additionalLegacyPolyfills: [],
   includeScriptTags: true,
   legacyTargets: null,
   evergreenTargets: [
@@ -66,6 +68,8 @@ module.exports = {
     let writeFile = require('broccoli-file-creator');
     let TransformAmd = require('./lib/transform-amd');
 
+    let additionalEvergreenPolyfills = this._options.additionalEvergreenPolyfills;
+    let additionalLegacyPolyfills = this._options.additionalLegacyPolyfills;
     let legacyTargets = this._options.legacyTargets || this.project.targets;
     let evergreenTargets = this._options.evergreenTargets;
 
@@ -76,11 +80,11 @@ module.exports = {
     let entries = new MergeTrees([
       writeFile(
         'legacy.js',
-        this._getEntryForTargets(legacyTargets, corejsVersion)
+        this._getEntryForTargets(legacyTargets, corejsVersion, additionalLegacyPolyfills)
       ),
       writeFile(
         'evergreen.js',
-        this._getEntryForTargets(evergreenTargets, corejsVersion)
+        this._getEntryForTargets(evergreenTargets, corejsVersion, additionalEvergreenPolyfills)
       ),
     ]);
 
@@ -114,13 +118,22 @@ module.exports = {
     });
   },
 
-  _getEntryForTargets(targets, corejs) {
+  _getEntryForTargets(targets, corejs, additionalPolyfills) {
     // eslint-disable-next-line node/no-extraneous-require
     let babel = require('@babel/core');
+    // eslint-disable-next-line node/no-extraneous-require
     let presetEnvPath = require.resolve('@babel/preset-env');
 
+    let imports = [
+        'core-js/stable',
+        'regenerator-runtime/runtime',
+        ...additionalPolyfills,
+      ]
+      .map(path => `import "${path}"`)
+      .join(';');
+
     return babel.transform(
-      'import "core-js/stable";import "regenerator-runtime/runtime";',
+      imports,
       {
         presets: [
           [

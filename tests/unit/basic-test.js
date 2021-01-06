@@ -8,10 +8,10 @@ import {
   isSafari,
 } from '../helpers/browser-detection';
 
-module('polyfill', function() {
+module('polyfill', function () {
   if (isIE) {
-    module('legacy', function() {
-      test('it loads', function(assert) {
+    module('legacy', function () {
+      test('it loads', function (assert) {
         // we will load all modules in legacy, but the evergreen module is
         // mostly/fully empty
         assert.ok(
@@ -23,18 +23,18 @@ module('polyfill', function() {
         );
       });
 
-      test('it works', function(assert) {
+      test('it works', function (assert) {
         assert.ok(typeof Symbol !== 'undefined', 'Symbol exists');
       });
     });
   } else {
-    module('evergreen', function() {
+    module('evergreen', function () {
       let HAS_LEGACY_SCRIPT = !Array.from(document.scripts).find(
-        script => script.attributes.src.value === '/assets/polyfill-legacy.js'
+        (script) => script.attributes.src.value === '/assets/polyfill-legacy.js'
       ).attributes.nomodule;
 
       if (HAS_LEGACY_SCRIPT) {
-        test('it loads', function(assert) {
+        test('it loads', function (assert) {
           // we will load all modules in legacy, but the evergreen module is
           // mostly/fully empty
           assert.ok(
@@ -46,7 +46,7 @@ module('polyfill', function() {
           );
         });
       } else {
-        test('it loads', function(assert) {
+        test('it loads', function (assert) {
           assert.ok(
             window.BABEL_POLYFILL_MODULES !== undefined &&
               window.BABEL_POLYFILL_MODULES['shared.js'] !== undefined &&
@@ -62,7 +62,7 @@ module('polyfill', function() {
       }
 
       if (isChrome || isFirefox || isSafari) {
-        test('it works', function(assert) {
+        test('it works', function (assert) {
           // https://developer.mozilla.org/en-US/docs/Web/API/Window/setImmediate
           //
           // setImmediate exists in IE, and still exists in Edge. May be why they chose
@@ -77,7 +77,7 @@ module('polyfill', function() {
       }
 
       if (isEdge) {
-        test('it works', function(assert) {
+        test('it works', function (assert) {
           // This test will eventually stop working once dom iterable is
           // available in Edge.
           assert.ok(
