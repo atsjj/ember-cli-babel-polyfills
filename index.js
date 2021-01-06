@@ -101,7 +101,6 @@ module.exports = {
 
     let rolledUp = new Rollup(entries, {
       rollup: {
-        experimentalCodeSplitting: true,
         input: ['legacy.js', 'evergreen.js'],
         output: {
           dir: 'output',
@@ -112,6 +111,7 @@ module.exports = {
             customResolveOptions: {
               basedir: this.root,
             },
+            preferBuiltins: true,
           }),
           commonjs(),
           ...additionalRollupPlugins,
